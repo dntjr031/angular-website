@@ -1,3 +1,6 @@
+import { BoardService } from './service/rest-api/board.service';
+import { MyinfoService } from './service/rest-api/myinfo.service';
+import { HttpRequestInterceptorService } from './service/rest-api/common/http-request-interceptor.service';
 import { SignService } from './service/rest-api/sign.service';
 import { SignupComponent } from './component/member/signup/signup.component';
 import { SigninComponent } from './component/member/signin/signin.component';
@@ -12,8 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LogoutComponent } from './component/logout/logout.component';
+import { MyinfoComponent } from './component/member/myinfo/myinfo.component';
+import { BoardComponent } from './component/board/board.component';
+import { PostComponent } from './component/board/post.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +27,10 @@ import { LogoutComponent } from './component/logout/logout.component';
     HomeComponent,
     SigninComponent,
     SignupComponent,
-    LogoutComponent
+    LogoutComponent,
+    MyinfoComponent,
+    BoardComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,14 @@ import { LogoutComponent } from './component/logout/logout.component';
     ReactiveFormsModule
   ],
   providers: [
-    SignService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptorService,
+      multi: true,
+    },
+    SignService,
+    MyinfoService,
+    BoardService
   ],
   bootstrap: [AppComponent]
 })
