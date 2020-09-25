@@ -1,3 +1,4 @@
+import { DialogService } from './../../../service/dialog.service';
 import { SignService } from './../../../service/rest-api/sign.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +14,7 @@ export class SigninComponent implements OnInit{
   redirectTo: string;
   signInForm: FormGroup;
 
-  constructor(private SignService: SignService, private router: Router, private route: ActivatedRoute) {
+  constructor(private signService: SignService, private router: Router, private route: ActivatedRoute, private dialogService: DialogService) {
     this.signInForm = new FormGroup({
       id: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
@@ -34,13 +35,19 @@ export class SigninComponent implements OnInit{
     });
   }
 
-  submit(){
-    if(this.signInForm.valid){
-      this.SignService.signIn(this.signInForm.value.id, this.signInForm.value.password)
-      .then(data => {
-        this.router.navigate([this.redirectTo ? this.redirectTo : '/']);
-      });
+  submit() {
+    if (this.signInForm.valid) {
+      this.signService.signIn(this.signInForm.value.id, this.signInForm.value.password)
+        .then(data => {
+          this.dialogService.alert('안내', '로그인이 완료되었습니다.').afterClosed().subscribe(result => {
+            if (result) {
+              this.router.navigate([this.redirectTo ? this.redirectTo : '/']);
+            }
+          });
+        });
     }
   }
 
 }
+
+

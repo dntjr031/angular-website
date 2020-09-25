@@ -1,3 +1,4 @@
+import { DialogService } from './../dialog.service';
 import { ApiValidationService } from './common/api-validation.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +12,7 @@ export class SignService {
   private signInUrl = '/api/v1/signin';
   private signUpUrl = '/api/v1/signup';
 
-  constructor(private http: HttpClient, private ApiValidationService: ApiValidationService) { }
+  constructor(private http: HttpClient, private ApiValidationService: ApiValidationService, private dialogService: DialogService) { }
 
   signIn(id: string, password: string): Promise<any> {
     const params = new FormData();
@@ -24,7 +25,7 @@ export class SignService {
         localStorage.setItem('x-auth-token', response.data);
       })
       .catch(response => {
-        alert("[로그인 실패]\n" + response.error.msg);
+        this.dialogService.alert('로그인 실패', response.error.msg);
         return Promise.reject(response.error.msg);
       });
   }
@@ -41,7 +42,7 @@ export class SignService {
         return true;
       })
       .catch(response => {
-        alert('[가입 실패]\n' + response.error.msg);
+        this.dialogService.alert('가입 실패]', response.error.msg);
         return Promise.reject(response.error.msg);
       });
   }

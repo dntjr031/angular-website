@@ -1,3 +1,4 @@
+import { BoardResolve } from './component/board/resolve/board-resolve';
 import { BoardService } from './service/rest-api/board.service';
 import { MyinfoService } from './service/rest-api/myinfo.service';
 import { HttpRequestInterceptorService } from './service/rest-api/common/http-request-interceptor.service';
@@ -20,6 +21,11 @@ import { LogoutComponent } from './component/logout/logout.component';
 import { MyinfoComponent } from './component/member/myinfo/myinfo.component';
 import { BoardComponent } from './component/board/board.component';
 import { PostComponent } from './component/board/post.component';
+import { PostViewComponent } from './component/board/post-view.component';
+import { PostModifyComponent } from './component/board/post-modify.component';
+import { AlertDialogComponent } from './component/common/alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from './component/common/confirm-dialog/confirm-dialog.component';
+import { Error404Component } from './component/common/error/error404.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +36,12 @@ import { PostComponent } from './component/board/post.component';
     LogoutComponent,
     MyinfoComponent,
     BoardComponent,
-    PostComponent
+    PostComponent,
+    PostViewComponent,
+    PostModifyComponent,
+    AlertDialogComponent,
+    ConfirmDialogComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,
@@ -53,7 +64,12 @@ import { PostComponent } from './component/board/post.component';
     },
     SignService,
     MyinfoService,
-    BoardService
+    BoardService,
+    BoardResolve
+  ],
+  entryComponents: [
+    ConfirmDialogComponent,
+    AlertDialogComponent
   ],
   bootstrap: [AppComponent]
 })

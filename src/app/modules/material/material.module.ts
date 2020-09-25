@@ -24,7 +24,7 @@ import { MatSliderModule} from '@angular/material/slider';
     MatIconModule,
     MatListModule,
     MatDialogModule,
-    MatSliderModule
+    MatSliderModule,
   ],
   exports: [
     MatCardModule,
@@ -36,7 +36,7 @@ import { MatSliderModule} from '@angular/material/slider';
     MatIconModule,
     MatListModule,
     MatDialogModule,
-    MatSliderModule
+    MatSliderModule,
   ],
   declarations: []
 })

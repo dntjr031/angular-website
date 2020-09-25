@@ -49,4 +49,50 @@ export class BoardService {
         return Promise.reject(response.error.msg);
       })
   }
+
+  viewPost(postId: number):Promise<Post>{
+    const getPostsUrl = this.getBoardUrl + '/post/' + postId;
+    return this.http.get<ApiReponseSingle>(getPostsUrl)
+      .toPromise()
+      .then(this.apiValidationService.validateResponse)
+      .then(response => {
+        return response.data as Post;
+      })
+      .catch(response => {
+        alert('[게시글 조회 중 오류 발생]\n' + response.error.msg);
+        return Promise.reject(response.error.msg);
+      })
+  }
+
+  modifyPost(post: Post): Promise<Post>{
+    const postUrl = this.getBoardUrl + '/post/' + post.postId;
+    const params = new FormData();
+    params.append('author', post.author);
+    params.append('title', post.title);
+    params.append('content', post.content);
+    return this.http.put<ApiReponseSingle>(postUrl, params)
+      .toPromise()
+      .then(this.apiValidationService.validateResponse)
+      .then(response => {
+        return response.data as Post;
+      })
+      .catch(response => {
+        alert('[게시글 수정 중 에러 발생]\n' + response.error.msg);
+        return Promise.reject(response.error.msg);
+      });
+  }
+
+  deletePost(postId: number): Promise<boolean>{
+    const deletePostUrl = this.getBoardUrl + '/post/' + postId;
+    return this.http.delete<ApiReponseSingle>(deletePostUrl)
+      .toPromise()
+      .then(this.apiValidationService.validateResponse)
+      .then(response => {
+        return true;
+      })
+      .catch(response => {
+        alert('[게시글 삭제 중 에러 발생]\n' + response.error.msg);
+        return Promise.reject(response.error.msg);
+      })
+  }
 }

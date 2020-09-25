@@ -1,3 +1,6 @@
+import { BoardService } from './../../service/rest-api/board.service';
+import { MyinfoService } from './../../service/rest-api/myinfo.service';
+import { SignService } from './../../service/rest-api/sign.service';
 // post.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -16,7 +19,10 @@ export class PostComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private signService: SignService,
+    private myinfoService: MyinfoService,
+    private boardService: BoardService
   ) {
     this.postForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -29,5 +35,13 @@ export class PostComponent {
   get f() { return this.postForm.controls; }
 
   submit() {
+    if(this.signService.isSignIn && this.postForm.valid){
+      this.myinfoService.getUser().then( user => {
+        this.boardService.addPost(this.boardName, user.name, this.postForm.value.title, this.postForm.value.content)
+          .then(response => {
+            this.router.navigate(['/board/' + this.boardName])
+          });
+      });
+    }
   }
 }
