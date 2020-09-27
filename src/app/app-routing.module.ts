@@ -15,6 +15,7 @@ import { MyinfoComponent } from './component/member/myinfo/myinfo.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
+  {path: '', component: HomeComponent},
   {path: 'signin', component: SigninComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'logout', component: LogoutComponent},
